@@ -81,36 +81,6 @@ class AuthController extends Controller
 
         }
 
-    // public function login(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password'=> 'required'
-    //     ]);
-    //     // Check if user credentials are valid
-    //     $user = Auth::where('email' , $request->email)->first();
-    //     if($user && Hash::check($request->password, $user->password)){
-    //         $token = $user->createToken($request->email)->plainTextToken;
-    //         return response()->json([
-    //             'status' => 'success',
-    //             'message' => 'User logged in successfully',
-    //             'token' => $token
-    //         ], 200);
-    //     }
-    //     return response([
-    //         'message' => 'The provided Credentials are incorrect',
-    //         'status' => 'failed',
-    //     ], 401);
-
-    //     }
-    
-
-    // /**
-    //  * Logout user (revoke the token).
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
     public function logout()
     {
         auth()->user()->tokens()->delete();
@@ -149,9 +119,9 @@ class AuthController extends Controller
 
     public function userRole(Request $request)
     {
-    $user = User::find($request->user_id);
-    $user->roles()->attach($request->role_id);
-    return response()->json(['message' => 'Role attached to user'], 201);
+        $user = User::find($request->user_id);
+        $user->roles()->attach($request->role_id);
+        return response()->json(['message' => 'Role attached to user'], 201);
     }
 
 }

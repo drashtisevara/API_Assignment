@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permisionmodels', function (Blueprint $table) {
+        Schema::create('permission__modules', function (Blueprint $table) {
             $table->id();
-
-
             $table->unsignedBigInteger('permission_id');
             $table->foreign('permission_id')->references('id')->on('permissions');
             $table->unsignedBigInteger('module_id');
             $table->foreign('module_id')->references('id')->on('modules');
-            $table->boolean('delete_access')->default(false);
-            $table->boolean('edit_access')->default(false);
             $table->boolean('add_access')->default(false);
             $table->boolean('view_access')->default(false);
-            $table->timestamps();
+            $table->boolean('edit_access')->default(false);
+            $table->boolean('delete_access')->default(false);
+            $table->timestamp('updated_at')->nullable();
+           
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permisionmodels');
+        Schema::dropIfExists('permission__modules');
     }
 };

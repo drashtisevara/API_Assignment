@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\HasPermissionsTrait;
 use App\Models\Module;
-use App\Models\Permissionmodel;
+use App\Models\Permission_Module;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\RolePermission;
@@ -56,32 +56,31 @@ class User extends Authenticatable
 //     return $this->belongsToMany(Role::class, 'user_role');
 // }
 
-public function roles()
-{
-    return $this->belongsToMany(Role::class,'user_role','user_id','role_id');
-}
-public function hasPermission($module, $access)
-{
-    foreach ($this->roles as $role) {
-        if ($role->hasPermission($module, $access)) {
-            return true;
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class,'user_role','user_id','role_id');
+    }
+    public function hasPermission($module, $access)
+    {
+        foreach ($this->roles as $role) {
+            if ($role->hasPermission($module, $access)) {
+                return true;
+            }
         }
+        return false;
+    }
+    public function hasRole($role)
+    {
+        return $this->roles()->where('name', $role)->exists();
     }
 
-    return false;
-}
-public function hasRole($role)
-{
-    return $this->roles()->where('name', $role)->exists();
-}
-
-public function userHasPermission($module, $access, $permission)
-{
-    return $this->roles()->whereHas('permission', function ($query) use ($permission) {
-        $query->where('name', $permission);
-    })->exists();
-}
-public function hasAccess($jobType, $access)
+    public function userHasPermission($module, $access, $permission)
+    {
+        return $this->roles()->whereHas('permission', function ($query) use ($permission) {
+            $query->where('name', $permission);
+        })->exists();
+    }
+    public function hasAccess($jobType, $access)
     {
         foreach ($this->roles as $role) {
             if ($role->hasAccess($jobType, $access)) {

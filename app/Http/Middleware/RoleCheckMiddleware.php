@@ -18,13 +18,13 @@ class RoleCheckMiddleware
     public function handle($request, Closure $next, $jobType, $access)
     {
         $user = auth()->user();
-        dd($user);
       
-        if ($user->hasAccess($jobType, $access)) {
+        if($user->hasAccess($jobType, $access)) {
+            // User has permission, continue to the next middleware or route handler
             return $next($request);
+        } else {
+            // User does not have permission, return a 403 Forbidden response
+            return response('You do not have permission to access this module', 403);
         }
-        return error('Unauthorized access.',403);
     }
-    
-        // return error('Unauthorized access.', 403);
-    }
+}

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Module;
-use App\Models\Permissionmodel;
+use App\Models\Permission_Module;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\RolePermission;
@@ -25,18 +25,14 @@ class RolePermission extends Model
         return $this->belongsTo(Role::class);
     }
 
-   
-
-  
-
     public function roles()
-{
-    return $this->belongsToMany(Role::class);
-}
+    {
+        return $this->belongsToMany(Role::class);
+    }
 
-public function permissions()
-{
-    return $this->belongsToMany(Permission::class);
-}
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
 
 }
