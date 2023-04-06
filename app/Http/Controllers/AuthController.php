@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
+use App\Jobs\UpdateIsNewColumnJob;
+
 
 
 class AuthController extends Controller
@@ -39,11 +43,16 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            
+            'is_new' => 1,
         ]);
         $user->roles()->sync($request->input('roles'));
         $token = $user->createToken($request->email)->plainTextToken;
-          return response()->json([
+        Mail::to($user->email)->send(new WelcomeMail($user));
+        Mail::to($user->email)->send(new WelcomeMail($user));
+
+        // Dispatch the job to update the is_new field of new users
+        dispatch(new UpdateIsNewColumnJob);
+        return response()->json([
             'token' => $token,
             'user' => $user,
             'status' => 'success',

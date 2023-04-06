@@ -15,6 +15,10 @@ use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
 use App\Models\UserRole;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
+
+
 
 
 class User extends Authenticatable
@@ -88,4 +92,14 @@ class User extends Authenticatable
             }
         }
     }
+
+//     protected static function boot()
+// {
+//     parent::boot();
+
+//     static::created(function ($user) {
+//         Mail::to($user->email)->send(new WelcomeMail());
+//     });
+// }
+
 }

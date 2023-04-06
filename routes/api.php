@@ -32,6 +32,8 @@ use App\Http\Controllers\PasswordResetController;
         return $request->user();
     });
 
+
+
     // First create User Details like register and login
     // public routes
     Route::controller(AuthController::class)->prefix('user')->group(function () {

@@ -34,16 +34,33 @@ class Permission extends Model
         return $this->belongsToMany(Role::class, 'role_permission', 'permission_id', 'role_id');
     }
 
+
     public function hasAccess($jobType, $access)
-    {       
+    {   
         foreach ($this->modules as $module) {
-            $permissionModule = $module->where('name', $jobType)->first();
-            $getPivot = $module->pivot->where('id',$permissionModule->id)->where($access,true)->first();
-            if ($permissionModule&& $getPivot) {
+        // Find the module with the given job type
+        $permissionModule = $module->where('name', $jobType)->first();
+            if (!$permissionModule) {
+                // Module not found, continue to the next one
+                continue;
+            }
+        
+        // Check if the pivot table has the given access for the module
+        $pivotRecord = $module->pivot;
+            if (!$pivotRecord) {
+                // Pivot record not found, continue to the next module
+                continue;
+            }
+        // Check if the access level is set to true
+        $accessValue = $pivotRecord->$access;
+            if ($accessValue) {
+                // Access granted, return true
                 return true;
             }
-        }
+        }  
+    // Access not granted for any module, return false
         return false;
     }
+
 
 }
