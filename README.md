@@ -1,66 +1,92 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+## About API Assignment Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is a Laravel API project that includes complete authentication using Sanctum, along with a user-role-permission-module. This project is meant to serve as a starting point for building secure and scalable APIs with Laravel.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Authentication
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This project uses Sanctum for API authentication. To authenticate a user, make a POST request to the /api/login endpoint with the user's email and password. The API will return a token that should be included in the Authorization header for all subsequent requests.
 
-## Learning Laravel
+To log out, simply make a POST request to the /api/logout endpoint with the Authorization header containing the token.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* First of all create AuthController and then Create registration , login, change_password, reset password and logout functionalities
+* after that create route on api.php 
+and then call this api on postman
+* In postman fill the registration details after that fill the login details with email and password.
+if email or password is not matched then errors are display 
+* When Login is successfull then one token is generated.. 
+* If  you want to logout then using its token you are logout
+* after that perform the change password function and routes and then call this api on postman and check.
+after that create a blade file on reset file and in env file create some mail configuration 
+after that create a controller and create a reset password related code
+and then create a routes api on api.php 
+after that call this api on postman and email was send on mailtrap and show mail on mailtrap and in mail one token was generated and this token was call on postman and then password will be reset.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Permission Management 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Administrators can create and manage permissions, which are individual actions that users can or cannot perform. The following endpoints are available:
 
-## Laravel Sponsors
+#### In Permission , 
+* Create a Model : php artisan make: model Permission
+* Create a Controller : php artisan make:controller PermissionController
+* perform Migration table 
+* In Permission controller file  create a CRUD Operations like create, show, update, delete
+* and create some validations 
+* after that perform this routes 
+- GET /permissions: Get all permissions
+- POST /permissions: Create a new permission
+- GET /permissions/{id}: Get a single permission by ID
+- PUT /permissions/{id}: Update a permission
+- DELETE /permissions/{id}: Delete a permission
+* and call this api on postman 
+* and create documentation this tested api.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Role Management
 
-### Premium Partners
+### Administrators can create and manage roles, which are collections of permissions. The following endpoints are available:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- GET /roles: Get all roles
+- POST /roles: Create a new role
+- GET /roles/{id}: Get a single role by ID
+- PUT /roles/{id}: Update a role
+- DELETE /roles/{id}: Delete a role
 
-## Contributing
+## Module Management
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Administrators can create and manage modules, which are individual features or sections of the application. The following endpoints are available:
 
-## Code of Conduct
+- GET /modules: Get all modules
+- POST /modules: Create a new module
+- GET /modules/{id}: Get a single module by ID
+- PUT /modules/{id}: Update a module
+- DELETE /modules/{id}: Delete a module
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Middlewre
 
-## Security Vulnerabilities
+* Perform Middleware on Job Module because this is protected purpose.. suppose I give permissions to whome to add_access, delete_access, view_access or edit_access..
+* which only this user can access, other cannot do.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+## Installation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+##### Clone the repository
+- git clone <repository-url>
+##### Install composer dependencies
+- composer install
+##### Create a copy of the .env.example file and rename it to .env
+- cp .env.example .env
+##### Generate an application key
+- php artisan key:generate
+##### Update the .env file with your database credentials
+* Run database migrations
+- php artisan migrate
+##### Seed the database with default data
+- php artisan db:seed
+##### Start the server
+- php artisan serve
+
+## Conclusion
+
+That's it! You should now have a fully functional Laravel API project with authentication using Sanctum and a user-role-permission-module. Feel free to customize the project to fit your needs.
